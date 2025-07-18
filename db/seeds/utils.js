@@ -19,7 +19,7 @@ const getArticles = (articles) =>
     article.topic,
     article.author,
     article.body,
-    new Date(article.created_at),
+    convertTimestampToDate({ created_at: article.created_at }).created_at,
     article.votes,
     article.article_img_url,
   ]);
@@ -33,7 +33,7 @@ const getComments = (articles, comments) => {
     comment.body,
     comment.votes,
     comment.author,
-    new Date(comment.created_at),
+    convertTimestampToDate({ created_at: comment.created_at }).created_at,
   ]);
 };
 

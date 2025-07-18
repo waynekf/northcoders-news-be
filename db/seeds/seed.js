@@ -13,9 +13,12 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
 
   return db
     .query(`DROP TABLE IF EXISTS Comments`)
-    .then(() => db.query(`DROP TABLE IF EXISTS Articles`))
-    .then(() => db.query(`DROP TABLE IF EXISTS Users`))
-    .then(() => db.query(`DROP TABLE IF EXISTS Topics`))
+    .then(() => db.query(`DROP TABLE IF EXISTS Articles CASCADE`))
+    .then(() => db.query(`DROP TABLE IF EXISTS Users CASCADE`))
+    .then(() => db.query(`DROP TABLE IF EXISTS Topics CASCADE`))
+    .then(() => db.query(`DROP TABLE IF EXISTS user_topic CASCADE`))
+    .then(() => db.query(`DROP TABLE IF EXISTS emoji_article_user CASCADE`))
+    .then(() => db.query(`DROP TABLE IF EXISTS Emojis CASCADE`))
     .then(() => {
       const sql = `CREATE TABLE Topics (
       slug varchar(50) PRIMARY KEY NOT NULL ,
@@ -95,7 +98,31 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
 
       return db.query(sql);
     })
-    .then((data) => {})
+    .then(() => {
+      const sql = `CREATE TABLE Emojis (
+      emoji_id SERIAL PRIMARY KEY NOT NULL ,
+      emoji varchar(250) NOT NULL)`;
+
+      return db.query(sql);
+    })
+    .then(() => {
+      const sql = `CREATE TABLE emoji_article_user (
+      emoji_article_user_id SERIAL PRIMARY KEY NOT NULL,
+      emoji_id int REFERENCES Emojis(emoji_id) NOT NULL,
+      userName varchar(250) REFERENCES Users(userName) NOT NULL,
+      article_id int REFERENCES Articles(article_id) NOT NULL)`;
+
+      return db.query(sql);
+    })
+    .then(() => {
+      const sql = `CREATE TABLE user_topic (
+      user_topic_id SERIAL PRIMARY KEY NOT NULL,
+      userName varchar(250) REFERENCES Users(userName) NOT NULL,
+      topic varchar(50) REFERENCES Topics(slug) NOT NULL)`;
+
+      return db.query(sql);
+    })
+    .then(() => {})
     .catch((error) => {
       console.log(error);
     });

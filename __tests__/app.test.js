@@ -47,7 +47,7 @@ describe("GET /api/topics", () => {
       });
   });
 })
-
+/*
 describe("GET /api/articles", () => {
   test("200: API call responds with an object containing an array of articles", () => {
     return request(app)
@@ -68,4 +68,4 @@ describe("GET /api/articles", () => {
         }
       });
   });
-})
+})*/

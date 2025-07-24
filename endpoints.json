@@ -23,5 +23,17 @@
         }
       ]
     }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "testuser",
+          "name": "Test User",
+          "avatar_url": "https://images.pexels.com/photos/4016579/pexels-photo-4016579.jpeg"
+        }
+      ]
+    }
   }
 }

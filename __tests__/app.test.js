@@ -69,3 +69,20 @@ describe("GET /api/articles", () => {
       });
   });
 })*/
+
+describe("GET /api/users", () => {
+  test("200: API call responds with an object containing an array of users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ res: { text } }) => {
+        const users = JSON.parse(text).users;
+        expect(users.length).toEqual(4);
+        for (i = 0; i < users.length; i++) {
+          expect(users[i]).toHaveProperty("username");
+          expect(users[i]).toHaveProperty("name");
+          expect(users[i]).toHaveProperty("avatar_url");
+        }
+      });
+  });
+})

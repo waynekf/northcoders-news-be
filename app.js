@@ -3,12 +3,15 @@ const app = express();
 const { greet } = require("./controllers/greet.controller.js");
 const { getTopics } = require("./controllers/topics.controller.js");
 const { getArticles } = require("./controllers/articles.controller.js");
+const { getUsers } = require("./controllers/users.controller.js");
 
 app.get("/", greet);
 
 app.get("/api/topics", getTopics);
 
 app.get("/api/articles", getArticles);
+
+app.get("/api/users", getUsers);
 
 /*
 TODO: UNDERSTAND THIS BETTER BEFORE I IMPLEMENT IT

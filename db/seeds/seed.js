@@ -123,14 +123,11 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
       return db.query(sql);
     })
     .then(() => {})
-    .catch((error) => {
-    })
-    .finally(() => {
-    });
+    .catch((error) => {})
+    .finally(() => {});
 };
 
 const unseed = () => {
-
   return db
     .query(`DROP TABLE IF EXISTS Comments`)
     .then(() => db.query(`DROP TABLE IF EXISTS Articles CASCADE`))
@@ -140,13 +137,11 @@ const unseed = () => {
     .then(() => db.query(`DROP TABLE IF EXISTS emoji_article_user CASCADE`))
     .then(() => db.query(`DROP TABLE IF EXISTS Emojis CASCADE`))
     .then(() => {})
-    .catch((error) => {
-    })
-    .finally(() => {
-    });
-}
+    .catch((error) => {})
+    .finally(() => {});
+};
 
 module.exports = {
   seed,
-  unseed
+  unseed,
 };

@@ -1,18 +1,16 @@
-const db = require("../db/connection.js");
+const { fetchTopics } = require("../models/topics.model.js");
 
 const getTopics = function (req, res) {
-  return db
-    .query("SELECT slug, description FROM Topics")
-    .then(({ rows: topics }) => {
-      if (topics.length > 0) {
-        res.send({ topics });
-        res.status(200);
-      } else {
-        res.status(404);
-        res.send({ msg: "No topics found" });
-      }
-      return topics;
-    });
+  return fetchTopics(req, res).then(({topics}) => {
+    if (topics.length > 0) {
+      res.status(200);
+      res.send({ topics });
+    } else {
+      res.status(404);
+      res.send({ topics: [] });
+    }
+    return topics;
+  });
 };
 
 module.exports = {

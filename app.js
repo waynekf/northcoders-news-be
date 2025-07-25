@@ -2,7 +2,10 @@ const express = require("express");
 const app = express();
 const { greet } = require("./controllers/greet.controller.js");
 const { getTopics } = require("./controllers/topics.controller.js");
-const { getArticles } = require("./controllers/articles.controller.js");
+const {
+  getArticles,
+  getArticle,
+} = require("./controllers/articles.controller.js");
 const { getUsers } = require("./controllers/users.controller.js");
 
 app.get("/", greet);
@@ -13,14 +16,16 @@ app.get("/api/articles", getArticles);
 
 app.get("/api/users", getUsers);
 
-/*
-TODO: UNDERSTAND THIS BETTER BEFORE I IMPLEMENT IT
-app.use((err, req, res, next) => {
-  console.log(err);
-  next(err);
-});
+app.get("/api/articles/:article_id", getArticle);
 
-Promise.reject({ status: 404, msg: "No topics found" });
-*/
+app.use((err, req, res, next) => {
+  if (err.status === 404) {
+    res.status(err.status).send({msg: "Not found"});
+  }
+  else {
+    res.status(500).send({ msg: "Internal Server Error" });
+  }
+  next();
+});
 
 module.exports = app;

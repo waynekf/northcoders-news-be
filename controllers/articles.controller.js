@@ -1,8 +1,8 @@
 const db = require("../db/connection.js");
-const { fetchArticles } = require("../models/articles.model.js");
+const { fetchArticles, fetchArticle } = require("../models/articles.model.js");
 
 const getArticles = function (req, res) {
-  return fetchArticles(req, res).then(({articles}) => {
+  return fetchArticles().then(({ articles }) => {
     if (articles.length > 0) {
       res.status(200);
       res.send({ articles });
@@ -10,10 +10,19 @@ const getArticles = function (req, res) {
       res.status(404);
       res.send({ articles: [] });
     }
-    return articles;
   });
+};
+
+const getArticle = function (req, res, next) {
+  const { article_id } = req.params;
+  return fetchArticle(article_id)
+    .then((article) => {
+      res.status(200).send({ article });
+    })
+    .catch(next);
 };
 
 module.exports = {
   getArticles,
+  getArticle,
 };

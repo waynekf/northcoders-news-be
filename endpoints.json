@@ -35,5 +35,22 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves a single article",
+    "exampleResponse": {
+      "users": [
+        {
+          "author": "testuser",
+          "title": "Test User",
+          "article_id": "1",
+          "body": "",
+          "topic": "",
+          "created_at": "",
+          "votes": "",
+          "article_img_url": ""
+        }
+      ]
+    }
   }
 }

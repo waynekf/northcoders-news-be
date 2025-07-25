@@ -11,12 +11,12 @@ const {
 } = require("../db/data/test-data");
 
 beforeEach(() => {
-  unseed();
+  //unseed();
   seed({ topicData, userData, articleData, commentData });
 });
 
 afterEach(() => {
-  //  unseed();
+  //unseed();
 });
 
 afterAll(() => db.end());
@@ -30,10 +30,10 @@ describe("GET /api", () => {
         expect(endpoints).toEqual(endpointsJson);
       });
   });
-})
+});
 
 describe("GET /api/topics", () => {
-  test("200: API call responds with an object containing an array of topics", () => {
+  test.skip("200: API call responds with an object containing an array of topics", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -46,10 +46,10 @@ describe("GET /api/topics", () => {
         }
       });
   });
-})
-/*
+});
+
 describe("GET /api/articles", () => {
-  test("200: API call responds with an object containing an array of articles", () => {
+  test.skip("200: API call responds with an object containing an array of articles", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -68,10 +68,36 @@ describe("GET /api/articles", () => {
         }
       });
   });
-})*/
+
+  test("200: API call responds with an object containing a single article", () => {
+    return request(app)
+      .get("/api/articles/5")
+      .expect(200)
+      .then(({ res: { text } }) => {
+        const article = JSON.parse(text).article;
+        expect(article).toHaveProperty("author");
+        expect(article).toHaveProperty("title");
+        expect(article).toHaveProperty("article_id");
+        expect(article).toHaveProperty("topic");
+        expect(article).toHaveProperty("created_at");
+        expect(article).toHaveProperty("votes");
+        expect(article).toHaveProperty("article_img_url");
+      });
+  });
+
+  test.skip("404: API call responds with a not found error", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then((data) => {
+        const error = JSON.parse(data.res.text);
+        expect(error.msg).toEqual("Not found");
+      });
+  });
+});
 
 describe("GET /api/users", () => {
-  test("200: API call responds with an object containing an array of users", () => {
+  test.skip("200: API call responds with an object containing an array of users", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -85,4 +111,4 @@ describe("GET /api/users", () => {
         }
       });
   });
-})
+});

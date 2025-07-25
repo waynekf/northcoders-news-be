@@ -1,6 +1,6 @@
 const db = require("../db/connection.js");
 
-const fetchTopics = function (req, res) {
+const fetchTopics = function () {
   return db
     .query("SELECT slug, description FROM Topics")
     .then(({ rows: topics }) => {

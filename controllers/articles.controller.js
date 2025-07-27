@@ -3,6 +3,7 @@ const {
   fetchArticles,
   fetchArticle,
   fetchComments,
+  postCommentToDb,
 } = require("../models/articles.model.js");
 
 const getArticles = function (req, res) {
@@ -36,8 +37,22 @@ const getComments = function (req, res, next) {
     .catch(next);
 };
 
+const postComment = function (req, res, next) {
+  const { article_id } = req.params;
+  const { body, author } = req.body;
+  return postCommentToDb(article_id, body, author)
+    .then((result) => {
+      if (result) {
+        const { rows } = result;
+        res.status(200).send(rows[0]);
+      }
+    })
+    .catch(next);
+};
+
 module.exports = {
   getArticles,
   getArticle,
   getComments,
+  postComment,
 };

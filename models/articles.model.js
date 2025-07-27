@@ -46,8 +46,27 @@ const fetchComments = function (article_id) {
   });
 };
 
+const postCommentToDb = function (article_id, body, author) {
+  const sql = `INSERT INTO Comments (article_id, body, author) 
+  VALUES ($1, $2, $3)
+  RETURNING *`;
+
+  return db.query(sql, [article_id, body, author]).then((data) => {
+    const { rowCount } = data;
+    if (rowCount === 0) {
+      return Promise.reject({
+        status: 502,
+        msg: `Failure to add comment for article '${article_id}'`,
+      });
+    }
+
+    return data;
+  });
+};
+
 module.exports = {
   fetchArticles,
   fetchArticle,
   fetchComments,
+  postCommentToDb,
 };

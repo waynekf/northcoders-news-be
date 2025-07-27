@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const { greet } = require("./controllers/greet.controller.js");
 const { getTopics } = require("./controllers/topics.controller.js");
@@ -6,8 +7,13 @@ const {
   getArticles,
   getArticle,
   getComments,
+  postComment,
 } = require("./controllers/articles.controller.js");
 const { getUsers } = require("./controllers/users.controller.js");
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 
 app.get("/", greet);
 
@@ -20,6 +26,8 @@ app.get("/api/users", getUsers);
 app.get("/api/articles/:article_id/comments", getComments);
 
 app.get("/api/articles/:article_id", getArticle);
+
+app.post("/api/articles/:article_id/comments", postComment);
 
 app.use((err, req, res, next) => {
   console.log(err);

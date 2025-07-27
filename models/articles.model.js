@@ -11,7 +11,7 @@ const fetchArticles = function () {
   });
 };
 
-const fetchArticle = async function (article_id) {
+const fetchArticle = function (article_id) {
   const sql = `SELECT author, title, article_id, topic, created_at, votes, article_img_url  
     FROM Articles 
     WHERE article_id = $1`;
@@ -29,7 +29,25 @@ const fetchArticle = async function (article_id) {
   });
 };
 
+const fetchComments = function (article_id) {
+  const sql = `SELECT *
+    FROM Comments 
+    WHERE article_id = $1 
+    ORDER BY created_at DESC`;
+  return db.query(sql, [article_id]).then(({ rows: comments }) => {
+    if (comments.length === 0) {
+      return Promise.reject({
+        status: 404,
+        msg: `Messages for article '${article_id}' not found`,
+      });
+    }
+
+    return { comments };
+  });
+};
+
 module.exports = {
   fetchArticles,
   fetchArticle,
+  fetchComments,
 };

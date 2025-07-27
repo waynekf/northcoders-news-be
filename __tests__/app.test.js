@@ -69,7 +69,27 @@ describe("GET /api/articles", () => {
       });
   });
 
-  test("200: API call responds with an object containing a single article", () => {
+  test.skip("200: API call responds with an object containing an array of comments", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ res: { text } }) => {
+        const comments = JSON.parse(text).comments;
+        console.log(comments.length);
+        expect(comments.length).toEqual(11);
+        for (i = 0; i < comments.length; i++) {
+          expect(comments[i]).toHaveProperty("comment_id");
+          expect(comments[i]).toHaveProperty("article_id");
+          expect(comments[i]).toHaveProperty("body");
+          expect(comments[i]).toHaveProperty("text");
+          expect(comments[i]).toHaveProperty("votes");
+          expect(comments[i]).toHaveProperty("author");
+          expect(comments[i]).toHaveProperty("created_at");
+        }
+      });
+  });
+
+  test.skip("200: API call responds with an object containing a single article", () => {
     return request(app)
       .get("/api/articles/5")
       .expect(200)
@@ -85,13 +105,33 @@ describe("GET /api/articles", () => {
       });
   });
 
-  test.skip("404: API call responds with a not found error", () => {
+  test.skip("404: API call responds with a not found error given specified article does not exist", () => {
     return request(app)
       .get("/api/articles/9999")
       .expect(404)
       .then((data) => {
         const error = JSON.parse(data.res.text);
-        expect(error.msg).toEqual("Not found");
+        expect(error.msg).toEqual("article '9999' not found");
+      });
+  });
+
+  test.skip("404: API call responds with a not found error given specified article does not exist", () => {
+    return request(app)
+      .get("/api/articles/9999/comments")
+      .expect(404)
+      .then((data) => {
+        const error = JSON.parse(data.res.text);
+        expect(error.msg).toEqual("article '9999' not found");
+      });
+  });
+
+  test.skip("404: API call responds with a not found error given specified article does not have any comments", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(404)
+      .then((data) => {
+        const error = JSON.parse(data.res.text);
+        expect(error.msg).toEqual("Messages for article '2' not found");
       });
   });
 });

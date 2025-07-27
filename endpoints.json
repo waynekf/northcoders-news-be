@@ -24,6 +24,16 @@
       ]
     }
   },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of all comments associated with an article",
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 1
+        }
+      ]
+    }
+  },
   "GET /api/users": {
     "description": "serves an array of all users",
     "exampleResponse": {

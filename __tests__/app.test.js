@@ -105,6 +105,20 @@ describe("GET /api/articles", () => {
       });
   });
 
+  test.skip("200: API call responds with an object containing an array of comments associated with a specified article", () => {
+    /*TODO: not quite working yet*/
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send({
+        author: "icellusedkars",
+        body: "mybody",
+      })
+      .expect(200)
+      .then((data) => {
+        //console.log(data, "<<<---");
+      });
+  });
+
   test.skip("404: API call responds with a not found error given specified article does not exist", () => {
     return request(app)
       .get("/api/articles/9999")

@@ -30,8 +30,6 @@ app.get("/api/articles/:article_id", getArticle);
 app.post("/api/articles/:article_id/comments", postComment);
 
 app.use((err, req, res, next) => {
-  console.log(err);
-
   if (err.status === 404) {
     res.status(err.status).send({ msg: err.msg });
   } else {

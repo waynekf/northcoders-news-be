@@ -40,7 +40,8 @@ const getComments = function (req, res, next) {
 const postComment = function (req, res, next) {
   const { article_id } = req.params;
   const { body, author } = req.body;
-  return postCommentToDb(article_id, body, author)
+  return fetchArticle(article_id)
+    .then(() => postCommentToDb(article_id, body, author))
     .then((result) => {
       if (result) {
         const { rows } = result;

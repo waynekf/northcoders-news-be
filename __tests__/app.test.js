@@ -121,22 +121,23 @@ describe("GET /api/articles", () => {
 
   test.skip("200: API call successfully increments by 1 the number of votes associated with a specified article", () => {
     const expected = {
-      "article_id":4,
-      "title":"Student SUES Mitch!",
-      "topic":"mitch",
-      "author":"rogersop",
-      "body":"We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
-      "created_at":"2020-05-06T01:14:00.000Z",
-      "votes":1,
-      "article_img_url":"https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
-    }; 
+      article_id: 4,
+      title: "Student SUES Mitch!",
+      topic: "mitch",
+      author: "rogersop",
+      body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+      created_at: "2020-05-06T01:14:00.000Z",
+      votes: 1,
+      article_img_url:
+        "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+    };
     return request(app)
       .patch("/api/articles/4")
       .send({
         inc_votes: "1",
       })
       .expect(200)
-      .then(({text}) => {
+      .then(({ text }) => {
         const actual = JSON.parse(text);
         const { votes } = expected;
         expect(actual).toEqual(expected);
@@ -146,22 +147,23 @@ describe("GET /api/articles", () => {
 
   test.skip("200: API call successfully decrements by 1 the number of votes associated with a specified article", () => {
     const expected = {
-      "article_id":4,
-      "title":"Student SUES Mitch!",
-      "topic":"mitch",
-      "author":"rogersop",
-      "body":"We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
-      "created_at":"2020-05-06T01:14:00.000Z",
-      "votes":-1,
-      "article_img_url":"https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
-    }; 
+      article_id: 4,
+      title: "Student SUES Mitch!",
+      topic: "mitch",
+      author: "rogersop",
+      body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+      created_at: "2020-05-06T01:14:00.000Z",
+      votes: -1,
+      article_img_url:
+        "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+    };
     return request(app)
       .patch("/api/articles/4")
       .send({
         inc_votes: "-1",
       })
       .expect(200)
-      .then(({text}) => {
+      .then(({ text }) => {
         const actual = JSON.parse(text);
         const { votes } = expected;
         expect(actual).toEqual(expected);
@@ -171,7 +173,7 @@ describe("GET /api/articles", () => {
 
   test.skip("400: API call returns appropriate error when request is made to increment number of votes by zero", () => {
     const expected = {
-      msg: "Unable to patch article '4' as number of votes must be non-zero"
+      msg: "Unable to patch article '4' as number of votes must be non-zero",
     };
     return request(app)
       .patch("/api/articles/4")
@@ -179,7 +181,7 @@ describe("GET /api/articles", () => {
         inc_votes: "0",
       })
       .expect(400)
-      .then(({text}) => {
+      .then(({ text }) => {
         const actual = JSON.parse(text);
         expect(actual).toEqual(expected);
       });
@@ -187,7 +189,7 @@ describe("GET /api/articles", () => {
 
   test.skip("400: API call returns appropriate error when request is made to increment number of votes by a non numeric value", () => {
     const expected = {
-      msg: "Unable to patch article '4' as number of votes cannot be a non-integer"
+      msg: "Unable to patch article '4' as number of votes cannot be a non-integer",
     };
     return request(app)
       .patch("/api/articles/4")
@@ -195,7 +197,7 @@ describe("GET /api/articles", () => {
         inc_votes: "one",
       })
       .expect(400)
-      .then(({text}) => {
+      .then(({ text }) => {
         const actual = JSON.parse(text);
         expect(actual).toEqual(expected);
       });
@@ -203,7 +205,7 @@ describe("GET /api/articles", () => {
 
   test.skip("400: API call returns appropriate error when request is made to increment number of votes for an invalid article id", () => {
     const expected = {
-      msg: "Article 'four' must be numeric"
+      msg: "Article 'four' must be numeric",
     };
     return request(app)
       .patch("/api/articles/four")
@@ -211,7 +213,7 @@ describe("GET /api/articles", () => {
         inc_votes: "1",
       })
       .expect(400)
-      .then(({text}) => {
+      .then(({ text }) => {
         const actual = JSON.parse(text);
         expect(actual).toEqual(expected);
       });
@@ -261,6 +263,43 @@ describe("GET /api/users", () => {
           expect(users[i]).toHaveProperty("name");
           expect(users[i]).toHaveProperty("avatar_url");
         }
+      });
+  });
+});
+
+describe("DELETE /api/comments", () => {
+  test.skip("204: API call successfully deletes a comment", () => {
+    return request(app)
+      .delete("/api/comments/4")
+      .expect(204)
+      .then((data) => {
+        /*TODO*/
+      });
+  });
+
+  test.skip("400: API call reports appropriate error when attempting to delete a non-numeric comment id", () => {
+    const expected = {
+      msg: "Comment id 'one' ought to be numeric"
+    };
+    return request(app)
+      .delete("/api/comments/one")
+      .expect(400)
+      .then(({ res: {text} }) => {
+        const actual = JSON.parse(text);
+        expect(actual).toEqual(expected);
+      });
+  });
+
+  test.skip("400: API call reports appropriate error when attempting to delete a non-existent comment id", () => {
+    const expected = {
+      msg: "attempt to delete something that doesn't exist"
+    };
+    return request(app)
+      .delete("/api/comments/9999")
+      .expect(404)
+      .then(({ res: {text} }) => {
+        const actual = JSON.parse(text);
+        expect(actual).toEqual(expected);
       });
   });
 });

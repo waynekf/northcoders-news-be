@@ -7,6 +7,12 @@ const fetchArticles = function () {
     ORDER BY A.created_at DESC`;
 
   return db.query(sql).then(({ rows: articles }) => {
+    if (articles.length === 0) {
+      return Promise.reject({
+        status: 404,
+        msg: `No articles found`,
+      });
+    }
     return { articles };
   });
 };

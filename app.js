@@ -43,9 +43,10 @@ app.use((err, req, res, next) => {
   } else if (err.status === 502) {
     res.status(err.status).send({ msg: err.msg });
   } else if (err.code === "42P01") {
-    res.status(404).send({ msg: "attempt to delete something that doesn't exist" });
-  }
-   else {
+    res
+      .status(404)
+      .send({ msg: "attempt to delete something that doesn't exist" });
+  } else {
     res.status(500).send({ msg: "Internal Server Error" });
   }
   next();

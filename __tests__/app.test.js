@@ -279,12 +279,12 @@ describe("DELETE /api/comments", () => {
 
   test.skip("400: API call reports appropriate error when attempting to delete a non-numeric comment id", () => {
     const expected = {
-      msg: "Comment id 'one' ought to be numeric"
+      msg: "Comment id 'one' ought to be numeric",
     };
     return request(app)
       .delete("/api/comments/one")
       .expect(400)
-      .then(({ res: {text} }) => {
+      .then(({ res: { text } }) => {
         const actual = JSON.parse(text);
         expect(actual).toEqual(expected);
       });
@@ -292,12 +292,12 @@ describe("DELETE /api/comments", () => {
 
   test.skip("400: API call reports appropriate error when attempting to delete a non-existent comment id", () => {
     const expected = {
-      msg: "attempt to delete something that doesn't exist"
+      msg: "attempt to delete something that doesn't exist",
     };
     return request(app)
       .delete("/api/comments/9999")
       .expect(404)
-      .then(({ res: {text} }) => {
+      .then(({ res: { text } }) => {
         const actual = JSON.parse(text);
         expect(actual).toEqual(expected);
       });

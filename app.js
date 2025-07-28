@@ -8,6 +8,7 @@ const {
   getArticle,
   getComments,
   postComment,
+  patchArticle,
 } = require("./controllers/articles.controller.js");
 const { getUsers } = require("./controllers/users.controller.js");
 
@@ -29,8 +30,12 @@ app.get("/api/articles/:article_id", getArticle);
 
 app.post("/api/articles/:article_id/comments", postComment);
 
+app.patch("/api/articles/:article_id", patchArticle);
+
 app.use((err, req, res, next) => {
-  if (err.status === 404) {
+  if (err.status === 400) {
+    res.status(err.status).send({ msg: err.msg });
+  } else if (err.status === 404) {
     res.status(err.status).send({ msg: err.msg });
   } else {
     res.status(500).send({ msg: "Internal Server Error" });

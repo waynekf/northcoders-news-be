@@ -119,6 +119,104 @@ describe("GET /api/articles", () => {
       });
   });
 
+  test.skip("200: API call successfully increments by 1 the number of votes associated with a specified article", () => {
+    const expected = {
+      "article_id":4,
+      "title":"Student SUES Mitch!",
+      "topic":"mitch",
+      "author":"rogersop",
+      "body":"We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+      "created_at":"2020-05-06T01:14:00.000Z",
+      "votes":1,
+      "article_img_url":"https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+    }; 
+    return request(app)
+      .patch("/api/articles/4")
+      .send({
+        inc_votes: "1",
+      })
+      .expect(200)
+      .then(({text}) => {
+        const actual = JSON.parse(text);
+        const { votes } = expected;
+        expect(actual).toEqual(expected);
+        expect(votes).toEqual(1);
+      });
+  });
+
+  test.skip("200: API call successfully decrements by 1 the number of votes associated with a specified article", () => {
+    const expected = {
+      "article_id":4,
+      "title":"Student SUES Mitch!",
+      "topic":"mitch",
+      "author":"rogersop",
+      "body":"We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+      "created_at":"2020-05-06T01:14:00.000Z",
+      "votes":-1,
+      "article_img_url":"https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+    }; 
+    return request(app)
+      .patch("/api/articles/4")
+      .send({
+        inc_votes: "-1",
+      })
+      .expect(200)
+      .then(({text}) => {
+        const actual = JSON.parse(text);
+        const { votes } = expected;
+        expect(actual).toEqual(expected);
+        expect(votes).toEqual(-1);
+      });
+  });
+
+  test.skip("400: API call returns appropriate error when request is made to increment number of votes by zero", () => {
+    const expected = {
+      msg: "Unable to patch article '4' as number of votes must be non-zero"
+    };
+    return request(app)
+      .patch("/api/articles/4")
+      .send({
+        inc_votes: "0",
+      })
+      .expect(400)
+      .then(({text}) => {
+        const actual = JSON.parse(text);
+        expect(actual).toEqual(expected);
+      });
+  });
+
+  test.skip("400: API call returns appropriate error when request is made to increment number of votes by a non numeric value", () => {
+    const expected = {
+      msg: "Unable to patch article '4' as number of votes cannot be a non-integer"
+    };
+    return request(app)
+      .patch("/api/articles/4")
+      .send({
+        inc_votes: "one",
+      })
+      .expect(400)
+      .then(({text}) => {
+        const actual = JSON.parse(text);
+        expect(actual).toEqual(expected);
+      });
+  });
+
+  test.skip("400: API call returns appropriate error when request is made to increment number of votes for an invalid article id", () => {
+    const expected = {
+      msg: "Article 'four' must be numeric"
+    };
+    return request(app)
+      .patch("/api/articles/four")
+      .send({
+        inc_votes: "1",
+      })
+      .expect(400)
+      .then(({text}) => {
+        const actual = JSON.parse(text);
+        expect(actual).toEqual(expected);
+      });
+  });
+
   test.skip("404: API call responds with a not found error given specified article does not exist", () => {
     return request(app)
       .get("/api/articles/9999")

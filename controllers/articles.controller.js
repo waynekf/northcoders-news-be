@@ -4,6 +4,7 @@ const {
   fetchArticle,
   fetchComments,
   postCommentToDb,
+  incrementArticleVotes,
 } = require("../models/articles.model.js");
 
 const getArticles = function (req, res) {
@@ -51,9 +52,24 @@ const postComment = function (req, res, next) {
     .catch(next);
 };
 
+const patchArticle = function (req, res, next) {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+  return fetchArticle(article_id)
+    .then(() => incrementArticleVotes(article_id, inc_votes))
+    .then((result) => {
+      if (result) {
+        const { rows } = result;
+        res.status(200).send(rows[0]);
+      }
+    })
+    .catch(next);
+};
+
 module.exports = {
   getArticles,
   getArticle,
   getComments,
   postComment,
+  patchArticle,
 };

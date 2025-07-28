@@ -12,6 +12,13 @@ const fetchArticles = function () {
 };
 
 const fetchArticle = function (article_id) {
+  if (isNaN(article_id)) {
+    return Promise.reject({
+      status: 400,
+      msg: `Article '${article_id}' must be numeric`,
+    });
+  }
+
   const sql = `SELECT author, title, article_id, topic, created_at, votes, article_img_url  
     FROM Articles 
     WHERE article_id = $1`;
@@ -64,9 +71,41 @@ const postCommentToDb = function (article_id, body, author) {
   });
 };
 
+const incrementArticleVotes = function (article_id, increment) {
+  if (isNaN(increment)) {
+    return Promise.reject({
+      status: 400,
+      msg: `Unable to patch article '${article_id}' as number of votes cannot be a non-integer`,
+    });
+  }
+  if (+increment === 0) {
+    return Promise.reject({
+      status: 400,
+      msg: `Unable to patch article '${article_id}' as number of votes must be non-zero`,
+    });
+  }
+  const sql = `UPDATE Articles 
+  SET votes = votes + $2
+  WHERE article_id = $1
+  RETURNING *`;
+
+  return db.query(sql, [article_id, +increment]).then((data) => {
+    const { rowCount } = data;
+    if (rowCount === 0) {
+      return Promise.reject({
+        status: 502,
+        msg: `Failure to update article '${article_id}'`,
+      });
+    }
+
+    return data;
+  });
+};
+
 module.exports = {
   fetchArticles,
   fetchArticle,
   fetchComments,
   postCommentToDb,
+  incrementArticleVotes,
 };

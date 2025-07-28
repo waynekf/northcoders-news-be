@@ -1,10 +1,27 @@
 const db = require("../db/connection.js");
 
-const fetchArticles = function () {
+const fetchArticles = function (sort_by, order) {
   const sql = `SELECT A.author, A.title, A.article_id, A.topic, A.created_at, A.votes, A.article_img_url, COUNT(C.article_id) as comment_count 
     FROM Articles A JOIN Comments C ON A.article_id = C.article_id 
     GROUP BY A.author, A.title, A.article_id, A.topic, A.created_at, A.votes, A.article_img_url 
-    ORDER BY A.created_at DESC`;
+    ORDER BY ${"A.".concat(sort_by).concat(" ").concat(order)}`;
+  const fields = [
+    "author",
+    "title",
+    "article_id",
+    "topic",
+    "created_at",
+    "votes",
+    "article_img_url",
+    "comment_count",
+  ];
+  const sorts = ["ASC", "DESC"];
+  if (fields.indexOf(sort_by) === -1 || sorts.indexOf(order) === -1) {
+    return Promise.reject({
+      status: 400,
+      msg: `Unable to return any articles due to a malformed query string. Are you sure the specified sort field exists?`,
+    });
+  }
 
   return db.query(sql).then(({ rows: articles }) => {
     if (articles.length === 0) {

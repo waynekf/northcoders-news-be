@@ -79,8 +79,18 @@ describe("GET /api/articles", () => {
         expect(articles[0].created_at).toEqual("2020-08-03T13:14:00.000Z");
       });
   });
+
+  test.skip("200: API call with a custom sort & filter responds with an object containing an array of articles", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch&sort_by=topic&order=ASC")
+      .expect(200)
+      .then(({ res: { text } }) => {
+        const articles = JSON.parse(text).articles;
+        expect(articles.length).toEqual(4);
+      });
+  });
   
-  test.skip("200: API call with an incorrectly specified custom sort field responds with an appropriate error", () => {
+  test.skip("400: API call with an incorrectly specified custom sort field responds with an appropriate error", () => {
     const expected = {
       msg: "Unable to return any articles due to a malformed query string. Are you sure the specified sort field exists?",
     };
@@ -93,7 +103,7 @@ describe("GET /api/articles", () => {
       });
   });
 
-  test.skip("200: API call with an incorrectly specified custom sort order responds with an appropriate error", () => {
+  test.skip("400: API call with an incorrectly specified custom sort order responds with an appropriate error", () => {
     const expected = {
       msg: "Unable to return any articles due to a malformed query string. Are you sure the specified sort field exists?",
     };

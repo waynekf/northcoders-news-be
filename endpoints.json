@@ -62,5 +62,16 @@
         }
       ]
     }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "assigns a comment to an article",
+    "exampleResponse": {
+      "users": [
+        {
+          "author": "testuser",
+          "body": "comment"
+        }
+      ]
+    }
   }
 }

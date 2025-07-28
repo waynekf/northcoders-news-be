@@ -9,13 +9,8 @@ const {
 
 const getArticles = function (req, res) {
   return fetchArticles().then(({ articles }) => {
-    if (articles.length > 0) {
-      res.status(200);
-      res.send({ articles });
-    } else {
-      res.status(404);
-      res.send({ articles: [] });
-    }
+    res.status(200);
+    res.send({ articles });
   });
 };
 

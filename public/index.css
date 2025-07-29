@@ -1,4 +1,58 @@
 * {
-    border: solid 1px green;
-    color: green;
+  box-sizing: border-box;
+  border: solid 1px green;
+}
+
+pre.http-method {
+  float: left;
+  margin: 0 5px 0 0;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+  font-weight: bold;
+}
+
+.http-method-get {
+  background-color: #2daa35;
+}
+
+.http-method-post {
+  background-color: #4c00ff;
+}
+
+.http-method-patch {
+  background-color: yellow;
+}
+
+.http-method-delete {
+  background-color: gray;
+}
+
+pre {
+  color: #ffffff;
+  padding: 10px;
+  position: relative;
+  margin: 10px 0 20px 0;
+  border: none;
+}
+
+pre {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 90%;
+  color: #292b2c;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family:
+    Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow: auto;
 }

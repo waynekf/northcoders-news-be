@@ -10,15 +10,153 @@
       <h1>API</h1>
     </header>
     <main>
-        <section>
-            &nbsp;
-        </section>
-        <section>
-            &nbsp;
-        </section>
+      <section>
+        <pre class="http-method http-method-get">
+          <code>GET</code>
+        </pre>
+        <p>/api/topics</p>
+        <p>
+          returns an array of all topics
+        </p>
+        <p>"queries": []</p>
+        <pre>
+            <code>{
+              "topics": [
+              {
+                "slug": "football",
+                "description": "Footie!"
+              }]}
+            </code>
+          </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-get">
+          <code>GET</code>
+        </pre>
+        <p>/api/articles</p>
+        <p>
+          returns an array of all articles. Optionally include sort_by and order parameters in the querystring
+        </p>>
+        <pre>
+          <code>{
+            "articles": [
+            {
+              "title": "Seafood substitutions are increasing",
+              "topic": "cooking",
+              "author": "weegembump",
+              "created_at": "2018-05-30T15:59:13.341Z",
+              "votes": 0,
+              "comment_count": 6
+            }]
+          </code>
+        </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-get">
+          <code>GET</code>
+        </pre>
+        <p>
+          /api/articles/:article_id/comments
+        </p>
+        <p>
+          returns an array of all comments associated with an article
+        </p>
+        <pre>
+          <code>{{
+              "comments": [
+                { "comment_id": 1 }
+                ]}
+          </code>
+        </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-get">
+          <code>GET</code>
+        </pre>
+        <p>/api/users</p>
+        <p>
+          returns an array of all users
+        </p>
+        <pre>
+          <code>{
+            "users": [
+              { "username": "testuser",
+              "name": "Test User",
+              "avatar_url": "https://images.pexels.com/photos/4016579/pexels-photo-4016579.jpeg" } ]
+          </code>
+        </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-get">
+          <code>GET</code>
+        </pre>
+        <p>/api/articles/:article_id</p>
+        <p>
+          returns a single article
+        </p>
+        <pre>
+          <code>{{
+              "users": [
+              {
+                "author": "testuser",
+                "title": "Test User",
+                "article_id": "1",
+                "body": "",
+                "topic": "",
+                "created_at": "",
+                "votes": "",
+                "article_img_url": "" } ]
+            </code>
+        </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-post">
+          <code>POST</code>
+        </pre>
+        <p>/api/articles/:article_id/comments</p>
+        <p>assigns a comment to an article</p>
+        <pre>
+          <code>{{
+              "users": [
+              { "author": "testuser",
+              "body": "comment"
+            } ]
+          </code>
+        </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-patch">
+          <code>PATCH</code>
+        </pre>
+        <p>/api/articles/:article_id</p>
+        <p>increments the number of votes assigned to an article</p>
+        <pre>
+          <code>{{
+              "article_id": 37,
+              "title": "TenHag the man!",
+              "topic": "football",
+              "author": "weegembump",
+              "body": "body",
+              "created_at": "2020-03-22T14:25:00.000Z",
+              "votes": 219,
+              "article_img_url": https://images.pexels.com/photos/774321/pexels-photo-774321.jpeg?w=700&h=700
+            } }
+          </code>
+        </pre>
+      </section>
+      <section>
+        <pre class="http-method http-method-delete">
+          <code>DELETE</code>
+        </pre>
+        <p>/api/comments/:comment_id"</p>
+        <p>deletes a specified comment</p>
+        <pre>
+          <code>
+            {}
+          </code>
+        </pre>
+      </section>
     </main>
-    <footer>
-        &nbsp;
-    </footer>
+    <footer>&nbsp; footer</footer>
   </body>
 </html>

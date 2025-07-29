@@ -1,9 +1,16 @@
 const db = require("../db/connection.js");
 
+const fetchCommentCount = function (article_id) {
+  return fetchArticles("article_id", "ASC", null).then(({ articles }) => {
+    const article = articles.find(x => (x.article_id === +article_id));
+    return article;
+  });
+};
+
 const fetchArticles = function (sort_by, order, topic) {
   const sql = `SELECT A.author, A.title, A.article_id, A.topic, A.created_at, A.votes, A.article_img_url, COUNT(C.article_id) as comment_count 
     FROM Articles A JOIN Comments C ON A.article_id = C.article_id 
-    WHERE A.topic = ${topic ? "'" + topic +"'" : "A.topic" }
+    WHERE A.topic = ${topic ? "'" + topic + "'" : "A.topic"}
     GROUP BY A.author, A.title, A.article_id, A.topic, A.created_at, A.votes, A.article_img_url 
     ORDER BY ${"A.".concat(sort_by).concat(" ").concat(order)}`;
   const fields = [
@@ -128,6 +135,7 @@ const incrementArticleVotes = function (article_id, increment) {
 
 module.exports = {
   fetchArticles,
+  fetchCommentCount,
   fetchArticle,
   fetchComments,
   postCommentToDb,

@@ -5,6 +5,7 @@ const {
   fetchComments,
   postCommentToDb,
   incrementArticleVotes,
+  fetchCommentCount,
 } = require("../models/articles.model.js");
 
 const getArticles = function (req, res) {
@@ -15,11 +16,16 @@ const getArticles = function (req, res) {
   });
 };
 
-const getArticle = function (req, res, next) {
+const getArticle = async function (req, res, next) {
   const { article_id } = req.params;
+  const xxx = await fetchCommentCount(article_id);
   return fetchArticle(article_id)
     .then((article) => {
-      res.status(200).send({ article });
+      if (article) {
+        res.status(200).send({ ...article, comment_count: xxx.comment_count });
+      } else {
+        res.status(200).send({ article });
+      }
     })
     .catch(next);
 };

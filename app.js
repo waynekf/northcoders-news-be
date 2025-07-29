@@ -52,4 +52,6 @@ app.use((err, req, res, next) => {
   next();
 });
 
+app.use('/api', express.static('public'));
+
 module.exports = app;

@@ -18,11 +18,11 @@ const getArticles = function (req, res) {
 
 const getArticle = async function (req, res, next) {
   const { article_id } = req.params;
-  const xxx = await fetchCommentCount(article_id);
+  const { comment_count } = await fetchCommentCount(article_id);
   return fetchArticle(article_id)
     .then((article) => {
       if (article) {
-        res.status(200).send({ ...article, comment_count: xxx.comment_count });
+        res.status(200).send({ ...article, comment_count });
       } else {
         res.status(200).send({ article });
       }

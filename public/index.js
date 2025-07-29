@@ -1,0 +1,107 @@
+const getEndpoints = function () {
+  const json = `[
+    {
+    "GET /api": {
+        "description": "serves up a json representation of all the available endpoints of the api"
+    },
+    "GET /api/topics": {
+        "description": "serves an array of all topics",
+        "queries": [],
+        "exampleResponse": {
+        "topics": [{ "slug": "football", "description": "Footie!" }]
+        }
+    },
+    "GET /api/articles": {
+        "description": "serves an array of all articles. Optionally include sort_by and order parameters in the querystring",
+        "exampleResponse": {
+        "articles": [
+            {
+            "title": "Seafood substitutions are increasing",
+            "topic": "cooking",
+            "author": "weegembump",
+            "created_at": "2018-05-30T15:59:13.341Z",
+            "votes": 0,
+            "comment_count": 6
+            }
+        ]
+        }
+    },
+    "GET /api/articles/:article_id/comments": {
+        "description": "serves an array of all comments associated with an article",
+        "exampleResponse": {
+        "comments": [
+            {
+            "comment_id": 1
+            }
+        ]
+        }
+    },
+    "GET /api/users": {
+        "description": "serves an array of all users",
+        "exampleResponse": {
+        "users": [
+            {
+            "username": "testuser",
+            "name": "Test User",
+            "avatar_url": "https://images.pexels.com/photos/4016579/pexels-photo-4016579.jpeg"
+            }
+        ]
+        }
+    },
+    "GET /api/articles/:article_id": {
+        "description": "serves a single article",
+        "exampleResponse": {
+        "users": [
+            {
+            "author": "testuser",
+            "title": "Test User",
+            "article_id": "1",
+            "body": "",
+            "topic": "",
+            "created_at": "",
+            "votes": "",
+            "article_img_url": ""
+            }
+        ]
+        }
+    },
+    "POST /api/articles/:article_id/comments": {
+        "description": "assigns a comment to an article",
+        "exampleResponse": {
+        "users": [
+            {
+            "author": "testuser",
+            "body": "comment"
+            }
+        ]
+        }
+    },
+    "PATCH /api/articles/:article_id": {
+        "description": "increments the number of votes assigned to an article",
+        "exampleResponse": {
+        "article_id": 37,
+        "title": "TenHag the man!",
+        "topic": "football",
+        "author": "weegembump",
+        "body": "body",
+        "created_at": "2020-03-22T14:25:00.000Z",
+        "votes": 219,
+        "article_img_url": "https://images.pexels.com/photos/774321/pexels-photo-774321.jpeg?w=700&h=700"
+        }
+    },
+    "DELETE /api/comments/:comment_id": {
+        "description": "deletes a specified comment",
+        "exampleResponse": {}
+    }
+    }]`;
+
+  const endpoints = JSON.parse(json);
+
+  //alert(endpoints[0]["GET /api"].description);
+};
+
+getEndpoints();
+
+module.exports = {
+  getEndpoints,
+};

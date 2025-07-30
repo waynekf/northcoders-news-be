@@ -123,7 +123,10 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
       return db.query(sql);
     })
     .then(() => {})
-    .catch((error) => {})
+    .catch((error) => {
+      console.log("ERROR CAUGHT IN CATCH!", "<<<---");
+      console.log(error);
+    })
     .finally(() => {});
 };
 

@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 const { greet } = require("./controllers/greet.controller.js");
@@ -13,6 +14,7 @@ const {
 const { getUsers } = require("./controllers/users.controller.js");
 const { deleteComment } = require("./controllers/comments.controller.js");
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());

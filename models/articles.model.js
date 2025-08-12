@@ -50,7 +50,7 @@ const fetchArticle = function (article_id) {
     });
   }
 
-  const sql = `SELECT author, title, article_id, topic, created_at, votes, article_img_url  
+  const sql = `SELECT author, title, article_id, topic, created_at, votes, article_img_url, body  
     FROM Articles 
     WHERE article_id = $1`;
 
